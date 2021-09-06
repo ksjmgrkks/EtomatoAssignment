@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "239157173060",
+    "project_id": "etomato-assignment",
+    "storage_bucket": "etomato-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239157173060:android:eeeec0697ae4375253d511",
+        "android_client_info": {
+          "package_name": "com.etomato.assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239157173060-64jvcb1qkkesnvl3cniq997u7i2ffkus.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.etomato.assignment",
+            "certificate_hash": "d93625859845ddb0754bc4c331feae8061d4082d"
+          }
+        },
+        {
+          "client_id": "239157173060-3n4c2e8527e2oll7m6kv19mshlqge5lk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANY1QbZyHqwEz_B5cwyEO_wsF8-y3AcXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239157173060-3n4c2e8527e2oll7m6kv19mshlqge5lk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

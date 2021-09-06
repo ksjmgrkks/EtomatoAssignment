@@ -8,8 +8,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.etomato.assignment.databinding.ActivityGridBinding;
 
@@ -52,8 +50,6 @@ public class GridActivity extends AppCompatActivity {
         // inflate로 xml에 있는 뷰들을 객체화해줌
         binding = ActivityGridBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        Toast.makeText(getApplicationContext(), "첫 화면입니다.", Toast.LENGTH_LONG).show();
 
         //리사이클러뷰 레이아웃매니저, 어댑터 설정
         GridLayoutManager gridManager = new GridLayoutManager(this, 2);
@@ -98,6 +94,7 @@ public class GridActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        //레트로핏 라이브러리가 인터페이스를 해석해 HTTP 통신을 처리하는 과정
         MainInterface mainInterface = retrofit.create(MainInterface.class);
         Call<String> call = mainInterface.string_call(CateName, c_id, deskid, order, userid, page, perPageCount);
         call.enqueue(new Callback<String>()
