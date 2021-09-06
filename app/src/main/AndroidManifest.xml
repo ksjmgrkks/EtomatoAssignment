@@ -14,13 +14,16 @@
         android:theme="@style/Theme.EtomatoAssignment"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.etomato.assignment.MainActivity"
+            android:name=".Main.GridActivity"
             android:exported="true" />
         <activity
-            android:name="com.etomato.assignment.GSON.RetrofitActivity"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name="com.etomato.assignment.Main.GridActivity"
+            android:name=".GSON.RetrofitActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ViewPager.ViewPagerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

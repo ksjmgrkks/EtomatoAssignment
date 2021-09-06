@@ -3,13 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/drawable/rec.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/drawable/vertical_line.xml" value="0.21388888888888888" />
         <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/activity_grid.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/activity_retrofit.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/activity_view_pager.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/ad_view.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/basic_view.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/fragment_news.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/fragment_timeline.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/fragment_write.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/grid_view.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/list_row_main.xml" value="0.2046875" />
+        <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/time_line_list.xml" value="0.67" />
+        <entry key="..\:/Users/etomato/AndroidStudioProjects/GSONApplication/app/src/main/res/layout/tl.xml" value="0.36614583333333334" />
       </map>
     </option>
   </component>

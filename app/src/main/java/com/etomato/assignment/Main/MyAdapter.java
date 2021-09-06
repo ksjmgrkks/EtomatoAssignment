@@ -21,7 +21,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final ArrayList<Model> dataList;
     private final Activity activity;
 
-    MyAdapter(Activity activity, ArrayList<Model> dataList)
+    public MyAdapter(Activity activity, ArrayList<Model> dataList)
     {
         this.activity = activity;
         this.dataList = dataList;
