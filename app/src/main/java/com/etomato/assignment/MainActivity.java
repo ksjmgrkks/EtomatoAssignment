@@ -1,7 +1,16 @@
 package com.etomato.assignment;
+import com.bumptech.glide.Glide;
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +21,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.etomato.assignment.Main.MainInterface;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,124 +39,40 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class MainActivity extends AppCompatActivity
-{
-    NestedScrollView nestedScrollView;
-    RecyclerView recyclerView;
-    ProgressBar progressBar;
+public class MainActivity extends AppCompatActivity {
 
-    ArrayList<MainData> dataArrayList = new ArrayList<>();
-    MainAdapter adapter;
+    WebView mWebView;
 
-    //필요파라미터
-    String CateName = "속보";
-    int c_id = 2;
-    int deskid = 0;
-    String order = "spot";
-    int userid = 0;
-    int page = 1;
-    int perPageCount = 15;
-
-
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        nestedScrollView = findViewById(R.id.scroll_view);
-        recyclerView = findViewById(R.id.recycler_view);
-        progressBar = findViewById(R.id.progress_bar);
+        String ImageUrl = getIntent().getStringExtra("ImageUrl");
+        String Title = getIntent().getStringExtra("Title");
+        String NewsLink = getIntent().getStringExtra("NewsLink");
 
-        adapter = new MainAdapter(MainActivity.this, dataArrayList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ImageView imageView = (ImageView) findViewById(R.id.expandedImage);
+        Glide.with(this) //해당 환경의 Context나 객체 입력
+            .load(ImageUrl) //URL, URI 등등 이미지를 받아올 경로
+            .into(imageView); //받아온 이미지를 받을 공간(ex. ImageView)
+        setSupportActionBar(toolbar);
 
-        getData(CateName, c_id, deskid, order, userid, page, perPageCount);
+        CollapsingToolbarLayout coll_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
+        coll_toolbar.setTitle(Title);
+        coll_toolbar.setContentScrimColor(Color.BLACK);
 
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener()
-        {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY)
-            {
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())
-                {
-                    Toast.makeText(getApplicationContext(), page+1+"페이지",Toast.LENGTH_SHORT).show();
-                    page++;
-                    progressBar.setVisibility(View.VISIBLE);
-                    getData(CateName, c_id, deskid, order, userid, page, perPageCount);
-                }
-            }
-        });
+        // 웹뷰 셋팅
+        mWebView = (WebView) findViewById(R.id.webView);//xml 자바코드 연결
+        mWebView.getSettings().setSupportMultipleWindows(true);
+        mWebView.getSettings().setJavaScriptEnabled(true);//자바스크립트 허용
+
+        mWebView.loadUrl(NewsLink);//웹뷰 실행
+
     }
 
-    private void getData(String CateName, int c_id, int deskid, String order, int userid, int page, int perPageCount)
-    {
-        // 레트로핏 초기화
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://dev.newstong.co.kr/")
-//                .addConverterFactory(ScalarsConverterFactory.create())
-//                .build();
-//        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://dev.newstong.co.kr/")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        MainInterface mainInterface = retrofit.create(MainInterface.class);
-        Call<String> call = mainInterface.string_call(CateName, c_id, deskid, order, userid, page, perPageCount);
-        call.enqueue(new Callback<String>()
-        {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response)
-            {
-                if (response.isSuccessful() && response.body() != null)
-                {
-                    progressBar.setVisibility(View.GONE);
-                    try
-                    {
-                        JSONArray jsonArray = new JSONArray(response.body());
-                        parseResult(jsonArray);
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t)
-            {
-                Log.e("에러 : ", t.getMessage());
-            }
-        });
-    }
-
-    private void parseResult(JSONArray jsonArray)
-    {
-        for (int i = 0; i < jsonArray.length(); i++)
-        {
-            try
-            {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                MainData data = new MainData();
-
-                JSONArray imageJA = jsonObject.getJSONArray("NewsTongImageList");
-                JSONObject imgJSONObject = imageJA.getJSONObject(0);
-                data.setImage(imgJSONObject.getString("ImageUrl"));
-
-                data.setName(jsonObject.getString("Title"));
-                dataArrayList.add(data);
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            adapter = new MainAdapter(MainActivity.this, dataArrayList);
-            recyclerView.setAdapter(adapter);
-        }
-    }
 
 }

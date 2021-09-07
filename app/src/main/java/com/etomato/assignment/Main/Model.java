@@ -3,7 +3,16 @@ package com.etomato.assignment.Main;
 public class Model {
     private String content;
     private String image;
+    private String Link;
     private int viewType;
+
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String link) {
+        Link = link;
+    }
 
     public void setContent(String content) {
         this.content = content;

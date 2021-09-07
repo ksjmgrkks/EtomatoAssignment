@@ -1,5 +1,7 @@
 package com.etomato.assignment.ViewPager.Fragment;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import com.etomato.assignment.Main.MainInterface;
 import com.etomato.assignment.Main.Model;
 import com.etomato.assignment.Main.MyAdapter;
 import com.etomato.assignment.Main.ViewType;
+import com.etomato.assignment.MainActivity;
 import com.etomato.assignment.R;
 import com.etomato.assignment.ViewPager.ViewPagerActivity;
 
@@ -100,8 +103,24 @@ public class NewsFragment extends Fragment {
                 }
             }
         });
+
+        myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int itemPosition) {
+                // 아이템에 있는 메뉴를 클릭했을 때 실행하는 메소드
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("ImageUrl",dataList.get(itemPosition).getImage());
+                intent.putExtra("Title",dataList.get(itemPosition).getContent());
+                intent.putExtra("NewsLink",dataList.get(itemPosition).getLink());
+                startActivity(intent);
+
+                Toast.makeText(getActivity(),dataList.get(itemPosition).getLink(),Toast.LENGTH_SHORT).show();
+            }
+        }) ;
         return view;
     }
+
+
 
     //Retrofit 라이브러리를 통해 JSONArray를 호출하는 메서드
     private void getData(String CateName, int c_id, int deskid, String order, int userid, int page, int perPageCount)
@@ -159,6 +178,8 @@ public class NewsFragment extends Fragment {
                 basicData.setImage(imageJSONObject.getString("ImageUrl"));
                 //제목
                 basicData.setContent(jsonObject.getString("Title"));
+                //링크
+                basicData.setLink(jsonObject.getString("NewsLink"));
                 //뷰타입
                 basicData.setViewType(ViewType.BASIC_VIEW);
                 dataList.add(basicData);
@@ -185,6 +206,7 @@ public class NewsFragment extends Fragment {
                 JSONObject imageJSONObject = imageJSONArray.getJSONObject(0);
                 gridData.setImage(imageJSONObject.getString("ImageUrl"));
                 gridData.setContent(jsonObject.getString("Title"));
+                gridData.setLink(jsonObject.getString("NewsLink"));
                 gridData.setViewType(ViewType.GRID_VIEW);
                 dataList.add(gridData);
             }

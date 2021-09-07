@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,17 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private final ArrayList<Model> dataList;
     private final Activity activity;
+
+    // 리스너 객체 참조를 저장하는 변수
+    private OnItemClickListener mListener = null ;
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position) ;
+    }
+    // OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메서드
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener ;
+    }
 
     public MyAdapter(Activity activity, ArrayList<Model> dataList)
     {
@@ -99,6 +111,19 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             super(itemView);
             image = itemView.findViewById(R.id.imageView);
             content = itemView.findViewById(R.id.textView_basic);
+
+            content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition() ;
+                    if (position != RecyclerView.NO_POSITION) {
+                        // 리스너 객체의 메서드 호출.
+                        if (mListener != null) {
+                            mListener.onItemClick(view, position) ;
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -122,6 +147,19 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             super(itemView);
             image = itemView.findViewById(R.id.imageView);
             content = itemView.findViewById(R.id.textView_grid);
+
+            content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition() ;
+                    if (position != RecyclerView.NO_POSITION) {
+                        // 리스너 객체의 메서드 호출.
+                        if (mListener != null) {
+                            mListener.onItemClick(view, position) ;
+                        }
+                    }
+                }
+            });
         }
     }
 
