@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "239157173060",
+    "firebase_url": "https://etomato-assignment-default-rtdb.firebaseio.com",
     "project_id": "etomato-assignment",
     "storage_bucket": "etomato-assignment.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:239157173060:android:eeeec0697ae4375253d511",
+        "mobilesdk_app_id": "1:239157173060:android:8f0484437768289353d511",
         "android_client_info": {
           "package_name": "com.etomato.assignment"
         }

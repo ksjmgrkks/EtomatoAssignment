@@ -20,7 +20,7 @@ public class TimeLineModel {
     }
 
     public void setDate(String date) {
-        this.date = "날짜"+date;
+        this.date = "날짜: "+date;
     }
 
     public String getTitle() {
@@ -28,7 +28,7 @@ public class TimeLineModel {
     }
 
     public void setTitle(String title) {
-        this.title = "제목"+title;
+        this.title = "제목: "+title;
     }
 
     public String getContents() {
@@ -36,7 +36,7 @@ public class TimeLineModel {
     }
 
     public void setContents(String contents) {
-        this.contents = "내용"+contents;
+        this.contents = "내용: "+contents;
     }
 
 

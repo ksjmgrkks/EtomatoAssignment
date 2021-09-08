@@ -1,4 +1,5 @@
 package com.etomato.assignment.ViewPager.Fragment;
+import android.annotation.SuppressLint;
 import android.widget.Toast;
 
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.view.autofill.AutofillValue;
 
 import com.etomato.assignment.Main.Model;
 import com.etomato.assignment.Main.MyAdapter;
+import com.etomato.assignment.Main.ViewType;
 import com.etomato.assignment.R;
 import com.github.vipulasri.timelineview.TimelineView;
 import com.google.firebase.database.DataSnapshot;
@@ -27,12 +29,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class TimelineFragment extends Fragment {
     //객체 초기화 설정
     ArrayList<TimeLineModel> dataList;
     TimeLineAdapter myAdapter;
+    DatabaseReference mDatabase;
 
     public TimelineFragment() {
         // Required empty public constructor
@@ -50,10 +60,6 @@ public class TimelineFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        //db 객체 참조
-        DatabaseReference Ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference timelineReference = Ref.child("timeline");
-
         //리사이클러뷰 레이아웃매니저, 어댑터 설정
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         dataList = new ArrayList<>();
@@ -64,37 +70,41 @@ public class TimelineFragment extends Fragment {
         recyclerViewTimeLine.setLayoutManager(manager);
         recyclerViewTimeLine.setAdapter(myAdapter);
 
+        //
 
-        for (int i = 1; i <= 5; i++){
-            TimeLineModel data = new TimeLineModel();
-            data.setDate(String.valueOf(i));
-            data.setTitle(String.valueOf(i));
-            data.setContents(String.valueOf(i));
-            dataList.add(data);
-            myAdapter.notifyItemInserted(0);
-        }
-        // Read from the database
-        timelineReference.addValueEventListener(new ValueEventListener() {
+
+        //db 인스턴스화
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("timeline");
+        //db 읽기 (실시간 반영)
+        dbRead();
+
+        return view;
+    }
+
+    public void dbRead(){
+        // 데이터베이스 읽기
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                TimeLineModel data = new TimeLineModel();
-                data.setDate(value);
-                data.setTitle(value);
-                data.setContents(value);
-                dataList.add(data);
-                myAdapter.notifyItemInserted(0);
-            }
+                if(dataSnapshot.exists()){
 
+                    dataList.clear();
+
+                    //대입받을 변수정의 : 배열명
+                    //참고 : https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=highkrs&logNo=220276708627
+                    for(DataSnapshot timelineSnapshot : dataSnapshot.getChildren()){
+                        TimeLineModel data = timelineSnapshot.getValue(TimeLineModel.class);
+                        dataList.add(data);
+                    }
+                    myAdapter.notifyDataSetChanged();
+
+                }
+            }
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(getActivity(),"1",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),""+error+"",Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
     }
 }
