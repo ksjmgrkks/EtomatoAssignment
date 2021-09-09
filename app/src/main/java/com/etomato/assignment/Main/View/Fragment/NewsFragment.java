@@ -116,8 +116,6 @@ public class NewsFragment extends Fragment {
         return view;
     }
 
-
-
     //Retrofit 라이브러리를 통해 JSONArray를 호출하는 메서드
     private void getData(String CateName, int c_id, int deskid, String order, int userid, int page, int perPageCount)
     {

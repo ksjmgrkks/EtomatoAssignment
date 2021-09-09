@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +38,6 @@ public class TimelineFragment extends Fragment {
     DatabaseReference mDatabase;
     Query myMostViewedPostsQuery;
     Button buttonSort;
-    int filter=1;
 
     public TimelineFragment() {
         // Required empty public constructor
@@ -44,9 +45,7 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,14 +73,8 @@ public class TimelineFragment extends Fragment {
 
         //db 인스턴스화
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        myMostViewedPostsQuery =  mDatabase.child("timeline").orderByChild("title");
-//        if(filter == 2){
-//            myMostViewedPostsQuery =  mDatabase.child("timeline").orderByChild("title");
-//        }else if (filter == 3){
-//            myMostViewedPostsQuery =  mDatabase.child("timeline").orderByChild("contents");
-//        }else{
-//            myMostViewedPostsQuery =  mDatabase.child("timeline");
-//        }
+        myMostViewedPostsQuery =  mDatabase.child("timeline");
+
         //db 읽기 (실시간 반영)
         dbRead();
 
@@ -128,14 +121,14 @@ public class TimelineFragment extends Fragment {
             public void onClick(DialogInterface dialog, int pos) {
                 String selectedText = items[pos].toString();
                 if(selectedText.equals("최신순")){
-                    buttonSort.setText("최신순");
-                    filter = 1;
+                      buttonSort.setText("최신순");
+                    myMostViewedPostsQuery =  mDatabase.child("timeline");
                 }else if(selectedText.equals("제목순")){
-                    buttonSort.setText("제목순");
-                    filter = 2;
+                      buttonSort.setText("제목순");
+                      myMostViewedPostsQuery =  mDatabase.child("timeline").orderByChild("title");
                 }else{
                     buttonSort.setText("내용순");
-                    filter = 3;
+                    myMostViewedPostsQuery =  mDatabase.child("timeline").orderByChild("contents");
                 }
             }
         });

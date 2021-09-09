@@ -13,6 +13,7 @@ import com.etomato.assignment.Main.Data.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class ViewPagerActivity extends AppCompatActivity {
+    NewsFragment newsFragment;
 
     ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
     @Override
@@ -27,9 +28,11 @@ public class ViewPagerActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
     public void setupViewPager(ViewPager viewPager) {
+        newsFragment = new NewsFragment();
         adapter.addFragment(new WriteFragment(), "글쓰기");
         adapter.addFragment(new TimelineFragment(), "타임라인");
-        adapter.addFragment(new NewsFragment(), "뉴스");
+        adapter.addFragment(newsFragment, "뉴스");
+//        adapter.deleteFragment(newsFragment, "뉴스");
         viewPager.setAdapter(adapter);
     }
 }

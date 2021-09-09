@@ -1,4 +1,7 @@
 package com.etomato.assignment.Main.View.Fragment;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -14,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.etomato.assignment.Main.Service.MyFirebaseMessagingService;
 import com.etomato.assignment.R;
 import com.etomato.assignment.Main.Data.TimeLineModel;
+import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,29 +52,40 @@ public class WriteFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_write, container, false);
 
-        //키보드에 따라 UI가 바뀌도록 설정하는 코드드
+        //키보드에 따라 UI가 바뀌도록 설정하는 코드
        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            // 알람을 보여주기위한 채널 생성
+//            String channelId  = getString(R.string.default_notification_channel_id);
+//            String channelName = getString(R.string.default_notification_channel_name);
+//            NotificationManager notificationManager =
+//                    getActivity().getSystemService(NotificationManager.class);
+//            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+//                    channelName, NotificationManager.IMPORTANCE_LOW));
+//        }
+//
+//        // 알림 메시지를 탭하면 알림에 수반되는 모든 데이터
+//        // 메시지는 의도 엑스트라에서 사용할 수 있습니다. 이 샘플에서 런처
+//        // 알림을 탭하면 인텐트가 실행되므로 수반되는 모든 데이터는
+//        // 여기에서 처리합니다. 다른 인텐트를 실행하려면 click_action을 설정하세요.
+//        // 원하는 인텐트에 대한 알림 메시지의 필드입니다. 런처 의도
+//        // click_action이 지정되지 않은 경우에 사용됩니다.
+//        // //
+//        // 알림 메시지와 함께 가능한 데이터를 처리합니다.
+//        // [START 핸들_데이터_엑스트라]
+//        if (getActivity().getIntent().getExtras() != null) {
+//            for (String key : getActivity().getIntent().getExtras().keySet()) {
+//                Object value = getActivity().getIntent().getExtras().get(key);
+//                Log.d("WF", "Key: " + key + " Value: " + value);
+//            }
+//        }
+        // [END 핸들_데이터_엑스트라]
 
         //db 인스턴스화
         mDatabase = FirebaseDatabase.getInstance().getReference().child("timeline");
         //db 읽기
         dbRead();
-
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            return;
-                        }
-
-                        // Get new FCM registration token
-                        String token = task.getResult();
-
-                        Log.d("토큰", token);
-
-                    }
-                });
 
         Button buttonWrite = (Button) view.findViewById(R.id.button_write);
         EditText editTextTitle = (EditText) view.findViewById(R.id.editText_title);
@@ -89,6 +106,23 @@ public class WriteFragment extends Fragment {
               String contents = editTextContents.getText().toString();
 
               addTimeline(getTime, title, contents);
+
+              FirebaseMessaging.getInstance().getToken()
+                      .addOnCompleteListener(new OnCompleteListener<String>() {
+                          @Override
+                          public void onComplete(@NonNull Task<String> task) {
+                              if (!task.isSuccessful()) {
+                                  Toast.makeText(getActivity(),"fcm 실패",Toast.LENGTH_SHORT).show();
+                                  return;
+                              }
+                              // Get new FCM registration token
+                              String token = task.getResult();
+                              // Log and toast
+                              String msg = getString(R.string.msg_token_fmt, token);
+                              Log.d("토큰", msg);
+                              Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+                          }
+                      });
 
               editTextTitle.setText("");
               editTextContents.setText("");
