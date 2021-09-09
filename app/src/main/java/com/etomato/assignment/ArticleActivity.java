@@ -2,44 +2,17 @@ package com.etomato.assignment;
 import com.bumptech.glide.Glide;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
-import com.etomato.assignment.Main.MainInterface;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
-
-public class MainActivity extends AppCompatActivity {
+public class ArticleActivity extends AppCompatActivity {
 
     WebView mWebView;
 
@@ -47,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_article);
 
         String ImageUrl = getIntent().getStringExtra("ImageUrl");
         String Title = getIntent().getStringExtra("Title");

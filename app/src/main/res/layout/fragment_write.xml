@@ -23,29 +23,30 @@
         <EditText
             android:id="@+id/editText_title"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/rec"
             android:hint="제목을 입력해주세요"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_write" />
 
         <EditText
             android:id="@+id/editText_contents"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/rec"
             android:hint="본문을 입력해주세요"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText_title" />
 

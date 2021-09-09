@@ -1,5 +1,4 @@
 package com.etomato.assignment.ViewPager.Fragment;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.widget.Button;
 import android.widget.Toast;
@@ -7,46 +6,25 @@ import android.widget.Toast;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.autofill.AutofillValue;
 
-import com.etomato.assignment.Main.Model;
-import com.etomato.assignment.Main.MyAdapter;
-import com.etomato.assignment.Main.ViewType;
-import com.etomato.assignment.MainActivity;
 import com.etomato.assignment.R;
-import com.github.vipulasri.timelineview.TimelineView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class TimelineFragment extends Fragment {

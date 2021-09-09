@@ -17,7 +17,7 @@
             android:name=".Main.GridActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ArticleActivity"
             android:theme="@style/Theme.Design.NoActionBar"
             android:exported="true" />
         <activity
@@ -25,6 +25,7 @@
             android:exported="true" />
         <activity
             android:name=".ViewPager.ViewPagerActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
