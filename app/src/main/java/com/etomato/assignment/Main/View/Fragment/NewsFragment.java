@@ -1,4 +1,4 @@
-package com.etomato.assignment.ViewPager.Fragment;
+package com.etomato.assignment.Main.View.Fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.util.Log;
@@ -15,11 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.etomato.assignment.Main.MainInterface;
-import com.etomato.assignment.Main.Model;
-import com.etomato.assignment.Main.MyAdapter;
-import com.etomato.assignment.Main.ViewType;
-import com.etomato.assignment.ArticleActivity;
+import com.etomato.assignment.Main.Data.NewsInterface;
+import com.etomato.assignment.Main.Data.NewsModel;
+import com.etomato.assignment.Main.Data.NewsAdapter;
+import com.etomato.assignment.Main.Data.NewsViewType;
+import com.etomato.assignment.Main.View.Activity.ArticleActivity;
 import com.etomato.assignment.R;
 
 import org.json.JSONArray;
@@ -36,8 +36,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class NewsFragment extends Fragment {
     //객체 초기화 설정
-    ArrayList<Model> dataList;
-    MyAdapter myAdapter;
+    ArrayList<NewsModel> newsDataList;
+    NewsAdapter newsAdapter;
     //API 주소
     String baseURL = "http://dev.newstong.co.kr/";
     //필요파라미터 설정
@@ -67,21 +67,21 @@ public class NewsFragment extends Fragment {
         page =1;
         //리사이클러뷰 레이아웃매니저, 어댑터 설정
         GridLayoutManager gridManager = new GridLayoutManager(getActivity(), 2);
-        dataList = new ArrayList<>();
-        myAdapter = new MyAdapter(getActivity(), dataList);
+        newsDataList = new ArrayList<>();
+        newsAdapter = new NewsAdapter(getActivity(), newsDataList);
 
         RecyclerView newsRecyclerView = (RecyclerView) view.findViewById(R.id.news_rv);
         NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.news_sv);
 
         newsRecyclerView.setLayoutManager(gridManager);
-        newsRecyclerView.setAdapter(myAdapter);
+        newsRecyclerView.setAdapter(newsAdapter);
 
         //뷰타입에 따라 GridLayout의 SpanSize를 다르게 설정하는 부분
         gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                int type = myAdapter.getItemViewType(position);
-                if (type == ViewType.GRID_VIEW)
+                int type = newsAdapter.getItemViewType(position);
+                if (type == NewsViewType.GRID_VIEW)
                     return 1;
                 else
                     return 2;
@@ -100,17 +100,17 @@ public class NewsFragment extends Fragment {
             }
         });
 
-        myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+        newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int itemPosition) {
                 // 아이템에 있는 메뉴를 클릭했을 때 실행하는 메소드
                 Intent intent = new Intent(getActivity(), ArticleActivity.class);
-                intent.putExtra("ImageUrl",dataList.get(itemPosition).getImage());
-                intent.putExtra("Title",dataList.get(itemPosition).getContent());
-                intent.putExtra("NewsLink",dataList.get(itemPosition).getLink());
+                intent.putExtra("ImageUrl", newsDataList.get(itemPosition).getImage());
+                intent.putExtra("Title", newsDataList.get(itemPosition).getContent());
+                intent.putExtra("NewsLink", newsDataList.get(itemPosition).getLink());
                 startActivity(intent);
 
-                Toast.makeText(getActivity(),dataList.get(itemPosition).getLink(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), newsDataList.get(itemPosition).getLink(),Toast.LENGTH_SHORT).show();
             }
         }) ;
         return view;
@@ -129,8 +129,8 @@ public class NewsFragment extends Fragment {
                 .build();
 
         //레트로핏 라이브러리가 인터페이스를 해석해 HTTP 통신을 처리하는 과정
-        MainInterface mainInterface = retrofit.create(MainInterface.class);
-        Call<String> call = mainInterface.string_call(CateName, c_id, deskid, order, userid, page, perPageCount);
+        NewsInterface newsInterface = retrofit.create(NewsInterface.class);
+        Call<String> call = newsInterface.string_call(CateName, c_id, deskid, order, userid, page, perPageCount);
         call.enqueue(new Callback<String>()
         {
             @Override
@@ -166,7 +166,7 @@ public class NewsFragment extends Fragment {
         {
             try
             {
-                Model basicData = new Model();
+                NewsModel basicData = new NewsModel();
                 JSONObject jsonObject = jsonArray.getJSONObject(formerNewsItem);
                 //이미지
                 JSONArray imageJSONArray = jsonObject.getJSONArray("NewsTongImageList");
@@ -177,8 +177,8 @@ public class NewsFragment extends Fragment {
                 //링크
                 basicData.setLink(jsonObject.getString("NewsLink"));
                 //뷰타입
-                basicData.setViewType(ViewType.BASIC_VIEW);
-                dataList.add(basicData);
+                basicData.setViewType(NewsViewType.BASIC_VIEW);
+                newsDataList.add(basicData);
             }
             catch (JSONException e)
             {
@@ -186,16 +186,16 @@ public class NewsFragment extends Fragment {
             }
         }
 
-        Model adData = new Model();
-        adData.setViewType(ViewType.AD_VIEW);
+        NewsModel adData = new NewsModel();
+        adData.setViewType(NewsViewType.AD_VIEW);
         adData.setContent("광고글 페이지 ("+page+")");
-        dataList.add(adData);
+        newsDataList.add(adData);
 
         for (int postNewsItem = 6 ; postNewsItem < 16 ; postNewsItem++)
         {
             try
             {
-                Model gridData = new Model();
+                NewsModel gridData = new NewsModel();
                 JSONObject jsonObject = jsonArray.getJSONObject(postNewsItem);
 
                 JSONArray imageJSONArray = jsonObject.getJSONArray("NewsTongImageList");
@@ -203,14 +203,14 @@ public class NewsFragment extends Fragment {
                 gridData.setImage(imageJSONObject.getString("ImageUrl"));
                 gridData.setContent(jsonObject.getString("Title"));
                 gridData.setLink(jsonObject.getString("NewsLink"));
-                gridData.setViewType(ViewType.GRID_VIEW);
-                dataList.add(gridData);
+                gridData.setViewType(NewsViewType.GRID_VIEW);
+                newsDataList.add(gridData);
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
             }
         }
-        myAdapter.notifyDataSetChanged();
+        newsAdapter.notifyDataSetChanged();
     }
 }

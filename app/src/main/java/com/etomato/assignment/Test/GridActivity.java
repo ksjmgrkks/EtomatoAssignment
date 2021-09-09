@@ -1,4 +1,4 @@
-package com.etomato.assignment.Main;
+package com.etomato.assignment.Test;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.etomato.assignment.Main.Data.NewsAdapter;
+import com.etomato.assignment.Main.Data.NewsInterface;
+import com.etomato.assignment.Main.Data.NewsModel;
+import com.etomato.assignment.Main.Data.NewsViewType;
 import com.etomato.assignment.databinding.ActivityGridBinding;
 
 import org.json.JSONArray;
@@ -30,8 +34,8 @@ public class GridActivity extends AppCompatActivity {
     private ActivityGridBinding binding;
 
     //객체 초기화 설정
-    ArrayList<Model> dataList;
-    MyAdapter myAdapter;
+    ArrayList<NewsModel> dataList;
+    NewsAdapter newsAdapter;
 
     //API 주소
     String baseURL = "http://dev.newstong.co.kr/";
@@ -54,16 +58,16 @@ public class GridActivity extends AppCompatActivity {
         //리사이클러뷰 레이아웃매니저, 어댑터 설정
         GridLayoutManager gridManager = new GridLayoutManager(this, 2);
         dataList = new ArrayList<>();
-        myAdapter = new MyAdapter(GridActivity.this, dataList);
+        newsAdapter = new NewsAdapter(GridActivity.this, dataList);
         binding.RecyclerView.setLayoutManager(gridManager);
-        binding.RecyclerView.setAdapter(myAdapter);
+        binding.RecyclerView.setAdapter(newsAdapter);
 
         //뷰타입에 따라 GridLayout의 SpanSize를 다르게 설정하는 부분
         gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                int type = myAdapter.getItemViewType(position);
-                if (type == ViewType.GRID_VIEW)
+                int type = newsAdapter.getItemViewType(position);
+                if (type == NewsViewType.GRID_VIEW)
                     return 1;
                 else
                     return 2;
@@ -95,8 +99,8 @@ public class GridActivity extends AppCompatActivity {
                 .build();
 
         //레트로핏 라이브러리가 인터페이스를 해석해 HTTP 통신을 처리하는 과정
-        MainInterface mainInterface = retrofit.create(MainInterface.class);
-        Call<String> call = mainInterface.string_call(CateName, c_id, deskid, order, userid, page, perPageCount);
+        NewsInterface newsInterface = retrofit.create(NewsInterface.class);
+        Call<String> call = newsInterface.string_call(CateName, c_id, deskid, order, userid, page, perPageCount);
         call.enqueue(new Callback<String>()
         {
             @Override
@@ -132,7 +136,7 @@ public class GridActivity extends AppCompatActivity {
         {
             try
             {
-                Model basicData = new Model();
+                NewsModel basicData = new NewsModel();
                 JSONObject jsonObject = jsonArray.getJSONObject(formerNewsItem);
                 //이미지
                 JSONArray imageJSONArray = jsonObject.getJSONArray("NewsTongImageList");
@@ -141,7 +145,7 @@ public class GridActivity extends AppCompatActivity {
                 //제목
                 basicData.setContent(jsonObject.getString("Title"));
                 //뷰타입
-                basicData.setViewType(ViewType.BASIC_VIEW);
+                basicData.setViewType(NewsViewType.BASIC_VIEW);
                 dataList.add(basicData);
             }
             catch (JSONException e)
@@ -150,8 +154,8 @@ public class GridActivity extends AppCompatActivity {
             }
         }
 
-        Model adData = new Model();
-        adData.setViewType(ViewType.AD_VIEW);
+        NewsModel adData = new NewsModel();
+        adData.setViewType(NewsViewType.AD_VIEW);
         adData.setContent("광고글 페이지 ("+page+")");
         dataList.add(adData);
 
@@ -159,14 +163,14 @@ public class GridActivity extends AppCompatActivity {
         {
             try
             {
-                Model gridData = new Model();
+                NewsModel gridData = new NewsModel();
                 JSONObject jsonObject = jsonArray.getJSONObject(postNewsItem);
 
                 JSONArray imageJSONArray = jsonObject.getJSONArray("NewsTongImageList");
                 JSONObject imageJSONObject = imageJSONArray.getJSONObject(0);
                 gridData.setImage(imageJSONObject.getString("ImageUrl"));
                 gridData.setContent(jsonObject.getString("Title"));
-                gridData.setViewType(ViewType.GRID_VIEW);
+                gridData.setViewType(NewsViewType.GRID_VIEW);
                 dataList.add(gridData);
             }
             catch (JSONException e)
@@ -174,6 +178,6 @@ public class GridActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        myAdapter.notifyDataSetChanged();
+        newsAdapter.notifyDataSetChanged();
     }
 }

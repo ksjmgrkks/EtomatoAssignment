@@ -1,5 +1,4 @@
-package com.etomato.assignment.ViewPager.Fragment;
-import android.app.Activity;
+package com.etomato.assignment.Main.Data;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +7,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.etomato.assignment.Main.Model;
 import com.etomato.assignment.R;
 
 import java.util.ArrayList;

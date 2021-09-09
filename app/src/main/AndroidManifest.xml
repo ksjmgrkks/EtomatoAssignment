@@ -14,17 +14,14 @@
         android:theme="@style/Theme.EtomatoAssignment"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Main.GridActivity"
+            android:name=".Test.GridActivity"
             android:exported="true" />
         <activity
-            android:name=".ArticleActivity"
+            android:name=".Main.View.Activity.ArticleActivity"
             android:theme="@style/Theme.Design.NoActionBar"
             android:exported="true" />
         <activity
-            android:name=".GSON.RetrofitActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ViewPager.ViewPagerActivity"
+            android:name=".Main.View.Activity.ViewPagerActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
@@ -34,7 +31,7 @@
             </intent-filter>
         </activity>
 
-     <service android:name=".MyFirebaseMessagingService"
+     <service android:name=".Service.MyFirebaseMessagingService"
               android:exported="false">
         <intent-filter>
             <action android:name="com.google.firebase.MESSAGING_EVENT"/>

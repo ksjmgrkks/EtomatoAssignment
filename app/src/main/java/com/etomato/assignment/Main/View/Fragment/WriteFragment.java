@@ -1,4 +1,4 @@
-package com.etomato.assignment.ViewPager.Fragment;
+package com.etomato.assignment.Main.View.Fragment;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.etomato.assignment.R;
+import com.etomato.assignment.Main.Data.TimeLineModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;

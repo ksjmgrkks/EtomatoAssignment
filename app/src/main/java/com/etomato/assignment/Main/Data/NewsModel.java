@@ -1,6 +1,6 @@
-package com.etomato.assignment.Main;
+package com.etomato.assignment.Main.Data;
 
-public class Model {
+public class NewsModel {
     private String content;
     private String image;
     private String Link;

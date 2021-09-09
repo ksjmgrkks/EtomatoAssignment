@@ -1,4 +1,4 @@
-package com.etomato.assignment.ViewPager.Fragment;
+package com.etomato.assignment.Main.View.Fragment;
 import android.content.DialogInterface;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.etomato.assignment.R;
+import com.etomato.assignment.Main.Data.TimeLineAdapter;
+import com.etomato.assignment.Main.Data.TimeLineModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

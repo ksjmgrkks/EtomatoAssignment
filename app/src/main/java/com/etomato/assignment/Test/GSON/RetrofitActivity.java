@@ -1,4 +1,4 @@
-package com.etomato.assignment.GSON;
+package com.etomato.assignment.Test.GSON;
 
 import androidx.appcompat.app.AppCompatActivity;
 

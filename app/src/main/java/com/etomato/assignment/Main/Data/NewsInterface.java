@@ -1,11 +1,11 @@
-package com.etomato.assignment.Main;
+package com.etomato.assignment.Main.Data;
 
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface MainInterface
+public interface NewsInterface
 {
     @GET("newstongsecond/NewsList.aspx")
     Call<String> string_call(

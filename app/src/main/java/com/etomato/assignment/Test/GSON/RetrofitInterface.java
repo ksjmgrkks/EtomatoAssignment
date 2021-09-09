@@ -1,4 +1,4 @@
-package com.etomato.assignment.GSON;
+package com.etomato.assignment.Test.GSON;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

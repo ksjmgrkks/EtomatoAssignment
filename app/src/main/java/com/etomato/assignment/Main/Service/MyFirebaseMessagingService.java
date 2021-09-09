@@ -1,4 +1,4 @@
-package com.etomato.assignment;
+package com.etomato.assignment.Main.Service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.etomato.assignment.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

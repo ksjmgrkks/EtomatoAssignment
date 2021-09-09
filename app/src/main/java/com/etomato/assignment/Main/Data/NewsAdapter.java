@@ -1,11 +1,10 @@
-package com.etomato.assignment.Main;
+package com.etomato.assignment.Main.Data;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,9 +16,9 @@ import com.etomato.assignment.R;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private final ArrayList<Model> dataList;
+    private final ArrayList<NewsModel> dataList;
     private final Activity activity;
 
     // 리스너 객체 참조를 저장하는 변수
@@ -33,7 +32,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         this.mListener = listener ;
     }
 
-    public MyAdapter(Activity activity, ArrayList<Model> dataList)
+    public NewsAdapter(Activity activity, ArrayList<NewsModel> dataList)
     {
         this.activity = activity;
         this.dataList = dataList;
@@ -46,12 +45,12 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if(viewType == ViewType.BASIC_VIEW)
+        if(viewType == NewsViewType.BASIC_VIEW)
         {
             view = inflater.inflate(R.layout.basic_view, parent, false);
             return new BasicViewHolder(view);
         }
-        else if(viewType == ViewType.AD_VIEW)
+        else if(viewType == NewsViewType.AD_VIEW)
         {
             view = inflater.inflate(R.layout.ad_view, parent, false);
             return new AdViewHolder(view);

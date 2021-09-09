@@ -1,4 +1,4 @@
-package com.etomato.assignment.GSON;
+package com.etomato.assignment.Test.GSON;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

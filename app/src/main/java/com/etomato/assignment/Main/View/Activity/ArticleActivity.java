@@ -1,4 +1,4 @@
-package com.etomato.assignment;
+package com.etomato.assignment.Main.View.Activity;
 import com.bumptech.glide.Glide;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 
+import com.etomato.assignment.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class ArticleActivity extends AppCompatActivity {

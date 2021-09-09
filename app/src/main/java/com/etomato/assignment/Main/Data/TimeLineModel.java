@@ -1,4 +1,4 @@
-package com.etomato.assignment.ViewPager.Fragment;
+package com.etomato.assignment.Main.Data;
 
 public class TimeLineModel {
 

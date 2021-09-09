@@ -1,19 +1,20 @@
-package com.etomato.assignment.ViewPager;
+package com.etomato.assignment.Main.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 
+import com.etomato.assignment.Main.View.Fragment.NewsFragment;
+import com.etomato.assignment.Main.View.Fragment.TimelineFragment;
+import com.etomato.assignment.Main.View.Fragment.WriteFragment;
 import com.etomato.assignment.R;
-import com.etomato.assignment.ViewPager.Fragment.NewsFragment;
-import com.etomato.assignment.ViewPager.Fragment.TimelineFragment;
-import com.etomato.assignment.ViewPager.Fragment.WriteFragment;
+import com.etomato.assignment.Main.Data.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class ViewPagerActivity extends AppCompatActivity {
 
-    SectionPageAdapter adapter = new SectionPageAdapter(getSupportFragmentManager());
+    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
