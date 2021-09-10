@@ -1,15 +1,34 @@
 package com.etomato.assignment.Main.View.Fragment;
+import static android.content.Context.INPUT_METHOD_SERVICE;
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Rect;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import android.widget.Button;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -55,33 +74,6 @@ public class WriteFragment extends Fragment {
         //키보드에 따라 UI가 바뀌도록 설정하는 코드
        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            // 알람을 보여주기위한 채널 생성
-//            String channelId  = getString(R.string.default_notification_channel_id);
-//            String channelName = getString(R.string.default_notification_channel_name);
-//            NotificationManager notificationManager =
-//                    getActivity().getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
-//                    channelName, NotificationManager.IMPORTANCE_LOW));
-//        }
-//
-//        // 알림 메시지를 탭하면 알림에 수반되는 모든 데이터
-//        // 메시지는 의도 엑스트라에서 사용할 수 있습니다. 이 샘플에서 런처
-//        // 알림을 탭하면 인텐트가 실행되므로 수반되는 모든 데이터는
-//        // 여기에서 처리합니다. 다른 인텐트를 실행하려면 click_action을 설정하세요.
-//        // 원하는 인텐트에 대한 알림 메시지의 필드입니다. 런처 의도
-//        // click_action이 지정되지 않은 경우에 사용됩니다.
-//        // //
-//        // 알림 메시지와 함께 가능한 데이터를 처리합니다.
-//        // [START 핸들_데이터_엑스트라]
-//        if (getActivity().getIntent().getExtras() != null) {
-//            for (String key : getActivity().getIntent().getExtras().keySet()) {
-//                Object value = getActivity().getIntent().getExtras().get(key);
-//                Log.d("WF", "Key: " + key + " Value: " + value);
-//            }
-//        }
-        // [END 핸들_데이터_엑스트라]
-
         //db 인스턴스화
         mDatabase = FirebaseDatabase.getInstance().getReference().child("timeline");
         //db 읽기
@@ -90,16 +82,86 @@ public class WriteFragment extends Fragment {
         Button buttonWrite = (Button) view.findViewById(R.id.button_write);
         EditText editTextTitle = (EditText) view.findViewById(R.id.editText_title);
         EditText editTextContents = (EditText) view.findViewById(R.id.editText_contents);
+        ConstraintLayout bottomMenu = (ConstraintLayout) view.findViewById(R.id.bottom_menu);
+        Button buttonPrevious = (Button) view.findViewById(R.id.button_move_previous);
+        Button buttonNext = (Button) view.findViewById(R.id.button_move_next);
+        Button buttonConfirm = (Button) view.findViewById(R.id.button_confirm);
+        NestedScrollView sv = (NestedScrollView) view.findViewById(R.id.scroll_view);
+
+        bottomMenu.setVisibility(View.INVISIBLE);
+
+        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //키보드 내리기
+                InputMethodManager immhide = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                bottomMenu.setVisibility(View.INVISIBLE);
+            }
+        });
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editTextContents.requestFocus();
+            }
+        });
+        buttonPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editTextTitle.requestFocus();
+            }
+        });
+        editTextContents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomMenu.setVisibility(View.VISIBLE);
+            }
+        });
+
+        editTextTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean gainFocus) {
+                //포커스가 주어졌을 때
+                if (gainFocus) {
+                    //to do
+                    buttonPrevious.setVisibility(View.GONE);
+                    buttonNext.setVisibility(View.VISIBLE);
+                    bottomMenu.setVisibility(View.VISIBLE);
+                    buttonConfirm.setVisibility(View.GONE);
+                }
+                //포커스를 잃었을 때
+                else {
+                    bottomMenu.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        editTextContents.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean gainFocus) {
+                //포커스가 주어졌을 때
+                if (gainFocus) {
+                    //to do
+                    bottomMenu.setVisibility(View.VISIBLE);
+                    buttonPrevious.setVisibility(View.VISIBLE);
+                    buttonNext.setVisibility(View.GONE);
+                    buttonConfirm.setVisibility(View.VISIBLE);
+                }
+                //포커스를 잃었을 때
+                else {
+                    bottomMenu.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
 
         // 쓰기 버튼을 눌렀을 때
         buttonWrite.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              Toast.makeText(getActivity(),"글이 등록되었습니다",Toast.LENGTH_SHORT).show();
 
               long now = System.currentTimeMillis();
               Date mDate = new Date(now);
-              SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+              @SuppressLint("SimpleDateFormat")
+              SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+
               String getTime = simpleDate.format(mDate);
 
               String title = editTextTitle.getText().toString();
@@ -120,7 +182,6 @@ public class WriteFragment extends Fragment {
                               // Log and toast
                               String msg = getString(R.string.msg_token_fmt, token);
                               Log.d("토큰", msg);
-                              Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
                           }
                       });
 
@@ -131,6 +192,7 @@ public class WriteFragment extends Fragment {
         });
         return view;
     }
+
     public void dbRead(){
         // 데이터베이스 읽기
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -156,4 +218,7 @@ public class WriteFragment extends Fragment {
         //키가 없는데 "timeline"와 name같이 값을 지정한 경우 자동으로 생성합니다.
         mDatabase.child(String.valueOf(maxID+1)).setValue(timeline);
     }
+
+
+
 }

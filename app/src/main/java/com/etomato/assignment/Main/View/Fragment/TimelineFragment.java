@@ -1,4 +1,6 @@
 package com.etomato.assignment.Main.View.Fragment;
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.content.DialogInterface;
 import android.widget.Button;
 import android.widget.Toast;
@@ -28,7 +30,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class TimelineFragment extends Fragment {
@@ -96,6 +103,23 @@ public class TimelineFragment extends Fragment {
                         TimeLineModel data = timelineSnapshot.getValue(TimeLineModel.class);
                         dataList.add(data);
                     }
+                    Collections.sort(dataList, new Comparator<TimeLineModel>() {
+                        @Override
+                        public int compare(TimeLineModel tm1, TimeLineModel tm2) {
+                            @SuppressLint("SimpleDateFormat")
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+                            Date date1 = null;
+                            Date date2 = null;
+                            try {
+                                date1 = dateFormat.parse(tm1.getDate());
+                                date2 = dateFormat.parse(tm2.getDate());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            return date1.compareTo(date2);
+                        }
+                    });
+                    Collections.reverse(dataList);
                     myAdapter.notifyDataSetChanged();
 
                 }
@@ -122,14 +146,48 @@ public class TimelineFragment extends Fragment {
                 String selectedText = items[pos].toString();
                 if(selectedText.equals("최신순")){
                       buttonSort.setText("최신순");
-                    myMostViewedPostsQuery =  mDatabase.child("timeline");
+                     //sort 참고 링크 (꼭 셋 다 봐야됨!<T>제너릭 이용)
+                     //https://offbyone.tistory.com/154 (compare)
+                     //https://dpdwm.tistory.com/34 (<T>제너릭)
+                     //https://taesikman1.tistory.com/81 (시간비교)
+                    //https://the-illusionist.me/41 (hh 와 kk 의 차이)
+                    Collections.sort(dataList, new Comparator<TimeLineModel>() {
+                        @Override
+                        public int compare(TimeLineModel tm1, TimeLineModel tm2) {
+                            @SuppressLint("SimpleDateFormat")
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+                            Date date1 = null;
+                            Date date2 = null;
+                            try {
+                               date1 = dateFormat.parse(tm1.getDate());
+                               date2 = dateFormat.parse(tm2.getDate());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            return date1.compareTo(date2);
+                        }
+                    });
+                    Collections.reverse(dataList);
                 }else if(selectedText.equals("제목순")){
                       buttonSort.setText("제목순");
-                      myMostViewedPostsQuery =  mDatabase.child("timeline").orderByChild("title");
+                    Collections.sort(dataList, new Comparator<TimeLineModel>() {
+                        @Override
+                        public int compare(TimeLineModel tm1, TimeLineModel tm2) {
+                            String str1 = tm1.getTitle();
+                            String str2 = tm2.getTitle();
+                            return tm1.getTitle().compareTo(tm2.getTitle());
+                        }
+                    });
                 }else{
                     buttonSort.setText("내용순");
-                    myMostViewedPostsQuery =  mDatabase.child("timeline").orderByChild("contents");
+                    Collections.sort(dataList, new Comparator<TimeLineModel>() {
+                        @Override
+                        public int compare(TimeLineModel tm1, TimeLineModel tm2) {
+                            return tm1.getContents().compareTo(tm2.getContents());
+                        }
+                    });
                 }
+                myAdapter.notifyDataSetChanged();
             }
         });
         builder.show();

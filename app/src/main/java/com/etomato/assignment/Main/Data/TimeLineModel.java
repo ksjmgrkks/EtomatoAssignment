@@ -1,10 +1,10 @@
 package com.etomato.assignment.Main.Data;
 
-public class TimeLineModel {
+public class TimeLineModel{
 
     public TimeLineModel() {
     }
-    
+
     public TimeLineModel(String date, String title, String contents) {
         this.date = date;
         this.title = title;
@@ -20,7 +20,7 @@ public class TimeLineModel {
     }
 
     public void setDate(String date) {
-        this.date = "날짜: "+date;
+        this.date = date;
     }
 
     public String getTitle() {
@@ -38,6 +38,5 @@ public class TimeLineModel {
     public void setContents(String contents) {
         this.contents = "내용: "+contents;
     }
-
 
 }

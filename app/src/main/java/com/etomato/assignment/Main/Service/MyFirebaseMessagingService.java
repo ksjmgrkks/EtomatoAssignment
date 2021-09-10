@@ -18,6 +18,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 
+import com.etomato.assignment.Main.View.Activity.ViewPagerActivity;
 import com.etomato.assignment.Main.View.Fragment.WriteFragment;
 import com.etomato.assignment.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -148,8 +149,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param messageBody FCM 메시지 본문이 수신되었습니다.
      */
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, WriteFragment.class);
+        Intent intent = new Intent(this, ViewPagerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("TabSetting", "1");
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
@@ -157,9 +159,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.ic_sun)
+                        .setSmallIcon(R.drawable.newstongsmall)
                         .setContentTitle("뉴스통")
-                        .setContentText(messageBody)
+                        .setContentText("타임라인에 글이 작성되었습니다.")
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);
@@ -171,10 +173,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId,
                     "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(0 , notificationBuilder.build());
     }
 }
