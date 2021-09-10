@@ -34,16 +34,23 @@ public class ArticleActivity extends AppCompatActivity {
             .into(imageView); //받아온 이미지를 받을 공간(ex. ImageView)
         setSupportActionBar(toolbar);
 
+        //뒤로가기 버튼
+        //https://stackoverflow.com/questions/40127031/how-to-enable-back-button-when-collapsingtoolbarlayout-is-collapsed
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         CollapsingToolbarLayout coll_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
+        coll_toolbar.setExpandedTitleGravity(10);
+        coll_toolbar.setExpandedTitleColor(Color.MAGENTA);//확장시 글자색
+        coll_toolbar.setContentScrimColor(Color.BLACK);//축소시 배경색
         coll_toolbar.setTitle(Title);
-        coll_toolbar.setContentScrimColor(Color.BLACK);
 
         // 웹뷰 셋팅
         mWebView = (WebView) findViewById(R.id.webView);//xml 자바코드 연결
         mWebView.getSettings().setSupportMultipleWindows(true);
         mWebView.getSettings().setJavaScriptEnabled(true);//자바스크립트 허용
 
-        mWebView.loadUrl(NewsLink);//웹뷰 실행
+        mWebView.loadUrl("http://dev.newstong.co.kr/newstongsecond/newsDescription.aspx?ntSeq="+NewsLink);//웹뷰 실행
 
     }
 

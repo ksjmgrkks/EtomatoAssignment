@@ -146,10 +146,11 @@ public class TimelineFragment extends Fragment {
                 String selectedText = items[pos].toString();
                 if(selectedText.equals("최신순")){
                       buttonSort.setText("최신순");
-                     //sort 참고 링크 (꼭 셋 다 봐야됨!<T>제너릭 이용)
+                     //sort 참고 링크 (꼭 셋 다 봐야됨!)
                      //https://offbyone.tistory.com/154 (compare)
                      //https://dpdwm.tistory.com/34 (<T>제너릭)
                      //https://taesikman1.tistory.com/81 (시간비교)
+
                     //https://the-illusionist.me/41 (hh 와 kk 의 차이)
                     Collections.sort(dataList, new Comparator<TimeLineModel>() {
                         @Override
@@ -173,8 +174,6 @@ public class TimelineFragment extends Fragment {
                     Collections.sort(dataList, new Comparator<TimeLineModel>() {
                         @Override
                         public int compare(TimeLineModel tm1, TimeLineModel tm2) {
-                            String str1 = tm1.getTitle();
-                            String str2 = tm2.getTitle();
                             return tm1.getTitle().compareTo(tm2.getTitle());
                         }
                     });

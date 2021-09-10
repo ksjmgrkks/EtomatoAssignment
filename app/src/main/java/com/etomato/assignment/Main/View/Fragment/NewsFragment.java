@@ -109,8 +109,7 @@ public class NewsFragment extends Fragment {
                 intent.putExtra("Title", newsDataList.get(itemPosition).getContent());
                 intent.putExtra("NewsLink", newsDataList.get(itemPosition).getLink());
                 startActivity(intent);
-
-                Toast.makeText(getActivity(), newsDataList.get(itemPosition).getLink(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), newsDataList.get(itemPosition).getLink(),Toast.LENGTH_SHORT).show();
             }
         }) ;
         return view;
@@ -173,7 +172,7 @@ public class NewsFragment extends Fragment {
                 //제목
                 basicData.setContent(jsonObject.getString("Title"));
                 //링크
-                basicData.setLink(jsonObject.getString("NewsLink"));
+                basicData.setLink(jsonObject.getString("Seq"));
                 //뷰타입
                 basicData.setViewType(NewsViewType.BASIC_VIEW);
                 newsDataList.add(basicData);
@@ -200,7 +199,7 @@ public class NewsFragment extends Fragment {
                 JSONObject imageJSONObject = imageJSONArray.getJSONObject(0);
                 gridData.setImage(imageJSONObject.getString("ImageUrl"));
                 gridData.setContent(jsonObject.getString("Title"));
-                gridData.setLink(jsonObject.getString("NewsLink"));
+                gridData.setLink(jsonObject.getString("Seq"));
                 gridData.setViewType(NewsViewType.GRID_VIEW);
                 newsDataList.add(gridData);
             }

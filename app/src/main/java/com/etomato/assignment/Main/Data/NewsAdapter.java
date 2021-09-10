@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
 import com.etomato.assignment.R;
 
 import java.util.ArrayList;
@@ -71,7 +72,9 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             Glide.with(activity)
                     .load(dataList.get(position).getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.image)
+                    .placeholder(R.drawable.newstong)
+                    .override(800,500)
+                    .centerCrop()
                     .into(((BasicViewHolder) viewHolder).image);
         }
         else if(viewHolder instanceof AdViewHolder)
@@ -85,7 +88,9 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             Glide.with(activity)
                     .load(dataList.get(position).getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.image)
+                    .placeholder(R.drawable.newstong)
+                    .override(500,400)
+                    .centerCrop()
                     .into(((GridViewHolder) viewHolder).image);
         }
     }
@@ -110,6 +115,19 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             super(itemView);
             image = itemView.findViewById(R.id.imageView);
             content = itemView.findViewById(R.id.textView_basic);
+
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition() ;
+                    if (position != RecyclerView.NO_POSITION) {
+                        // 리스너 객체의 메서드 호출.
+                        if (mListener != null) {
+                            mListener.onItemClick(view, position) ;
+                        }
+                    }
+                }
+            });
 
             content.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,6 +164,19 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             super(itemView);
             image = itemView.findViewById(R.id.imageView);
             content = itemView.findViewById(R.id.textView_grid);
+
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition() ;
+                    if (position != RecyclerView.NO_POSITION) {
+                        // 리스너 객체의 메서드 호출.
+                        if (mListener != null) {
+                            mListener.onItemClick(view, position) ;
+                        }
+                    }
+                }
+            });
 
             content.setOnClickListener(new View.OnClickListener() {
                 @Override
