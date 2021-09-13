@@ -2,6 +2,7 @@ package com.etomato.assignment.Main.View.Activity;
 import com.bumptech.glide.Glide;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
@@ -37,11 +38,11 @@ public class ArticleActivity extends AppCompatActivity {
         //뒤로가기 버튼
         //https://stackoverflow.com/questions/40127031/how-to-enable-back-button-when-collapsingtoolbarlayout-is-collapsed
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
 
         CollapsingToolbarLayout coll_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
         coll_toolbar.setExpandedTitleGravity(10);
-        coll_toolbar.setExpandedTitleColor(Color.MAGENTA);//확장시 글자색
+        coll_toolbar.setExpandedTitleColor(Color.BLUE);//확장시 글자색
         coll_toolbar.setContentScrimColor(Color.BLACK);//축소시 배경색
         coll_toolbar.setTitle(Title);
 
@@ -54,6 +55,16 @@ public class ArticleActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

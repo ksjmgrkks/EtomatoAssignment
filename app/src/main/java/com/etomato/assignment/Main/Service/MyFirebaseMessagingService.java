@@ -161,15 +161,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.drawable.newstongsmall)
                         .setContentTitle("뉴스통")
-                        .setContentText("타임라인에 글이 작성되었습니다.")
+                        .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
+                        // 헤드업 노티 : https://pyeongho.github.io/headup
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Android Oreo 알림 채널이 필요하기 때문에.
+
+        // Android Oreo 알림 채널 설정
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId,
                     "Channel human readable title",

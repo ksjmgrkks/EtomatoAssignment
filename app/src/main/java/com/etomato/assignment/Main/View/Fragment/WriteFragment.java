@@ -50,11 +50,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONObject;
+
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class WriteFragment extends Fragment {
 
+    //FCM 변수
+    private static final String Token = "c8v-yOp5SRySK0qypfpVKs:APA91bGUm_KQYP6KmpDPhUbZRK2fN4JihA4qa3LoZrveQINhc85RRFEdx5W8fFw4MBVHc9ckMOUPRtZDDAmTBfhEAnpzhZgeteUTnVIfYa0eI_tTmwf_0UEWuBR46lkGC8oC-5aCwLWb";
+    private static final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
+    private static final String SERVER_KEY = "AAAAN67g20Q:APA91bGcykO1ZDHNhmPE-4csGEzzKMjL0iZDDwaUBtePQEO1yAooxf9HSN2IyKdU9ZEgEBfJ9fOw-nZicXAnNazbKVElKgUyO5mFpfHn45MyZS3KDR5TpBhV7KvRWsdrkX1LE-gi0xfO";
     // DB 레퍼런스 설정
     private DatabaseReference mDatabase;
     //데이터베이스의 id값 설정을 위함
@@ -184,6 +193,7 @@ public class WriteFragment extends Fragment {
                               Log.d("토큰", msg);
                           }
                       });
+              sendPostToFCM("타임라인에 글이 등록되었습니다.");
 
               editTextTitle.setText("");
               editTextContents.setText("");
@@ -219,6 +229,38 @@ public class WriteFragment extends Fragment {
         mDatabase.child(String.valueOf(maxID+1)).setValue(timeline);
     }
 
+    private void sendPostToFCM(String message) {
+        //참고 링크 : https://anhana.tistory.com/7?category=701004
+        // 통신은 무조건 워커 쓰레드로 구현해줘야함!
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // FMC 메시지 생성 start
+                    JSONObject root = new JSONObject();
+                    JSONObject notification = new JSONObject();
+                    notification.put("body", message);
+                    notification.put("title", getString(R.string.app_name));
+                    root.put("notification", notification);
+                    root.put("to", Token);
+                    // FMC 메시지 생성 end
+                    URL Url = new URL(FCM_MESSAGE_URL);
+                    HttpURLConnection conn = (HttpURLConnection) Url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.addRequestProperty("Authorization", "key=" + SERVER_KEY);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-type", "application/json");
+                    OutputStream os = conn.getOutputStream();
+                    os.write(root.toString().getBytes("utf-8"));
+                    os.flush();
+                    conn.getResponseCode();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 
-
-}
+    }
