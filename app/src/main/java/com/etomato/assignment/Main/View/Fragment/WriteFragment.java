@@ -95,7 +95,6 @@ public class WriteFragment extends Fragment {
         Button buttonPrevious = (Button) view.findViewById(R.id.button_move_previous);
         Button buttonNext = (Button) view.findViewById(R.id.button_move_next);
         Button buttonConfirm = (Button) view.findViewById(R.id.button_confirm);
-        NestedScrollView sv = (NestedScrollView) view.findViewById(R.id.scroll_view);
 
         bottomMenu.setVisibility(View.INVISIBLE);
 

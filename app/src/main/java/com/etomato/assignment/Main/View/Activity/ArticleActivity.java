@@ -42,7 +42,7 @@ public class ArticleActivity extends AppCompatActivity {
 
         CollapsingToolbarLayout coll_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
         coll_toolbar.setExpandedTitleGravity(10);
-        coll_toolbar.setExpandedTitleColor(Color.BLUE);//확장시 글자색
+        coll_toolbar.setExpandedTitleColor(Color.parseColor("#2196F3"));//확장시 글자색
         coll_toolbar.setContentScrimColor(Color.BLACK);//축소시 배경색
         coll_toolbar.setTitle(Title);
 
