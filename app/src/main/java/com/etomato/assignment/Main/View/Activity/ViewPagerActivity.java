@@ -17,6 +17,9 @@ import com.etomato.assignment.Main.View.Fragment.TimelineFragment;
 import com.etomato.assignment.Main.View.Fragment.WriteFragment;
 import com.etomato.assignment.R;
 import com.etomato.assignment.Main.Data.ViewPagerAdapter;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.tabs.TabLayout;
 
 public class ViewPagerActivity extends AppCompatActivity {
@@ -29,6 +32,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pager);
         setTitle("뉴스통");
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(viewPager);
 

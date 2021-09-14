@@ -61,7 +61,6 @@ import java.util.Date;
 public class WriteFragment extends Fragment {
 
     //FCM 변수
-    private static final String Token = "c8v-yOp5SRySK0qypfpVKs:APA91bGUm_KQYP6KmpDPhUbZRK2fN4JihA4qa3LoZrveQINhc85RRFEdx5W8fFw4MBVHc9ckMOUPRtZDDAmTBfhEAnpzhZgeteUTnVIfYa0eI_tTmwf_0UEWuBR46lkGC8oC-5aCwLWb";
     private static final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
     private static final String SERVER_KEY = "AAAAN67g20Q:APA91bGcykO1ZDHNhmPE-4csGEzzKMjL0iZDDwaUBtePQEO1yAooxf9HSN2IyKdU9ZEgEBfJ9fOw-nZicXAnNazbKVElKgUyO5mFpfHn45MyZS3KDR5TpBhV7KvRWsdrkX1LE-gi0xfO";
     // DB 레퍼런스 설정
@@ -190,9 +189,10 @@ public class WriteFragment extends Fragment {
                               // Log and toast
                               String msg = getString(R.string.msg_token_fmt, token);
                               Log.d("토큰", msg);
+                              sendPostToFCM("타임라인에 글이 등록되었습니다.", token);
                           }
                       });
-              sendPostToFCM("타임라인에 글이 등록되었습니다.");
+
 
               editTextTitle.setText("");
               editTextContents.setText("");
@@ -228,7 +228,7 @@ public class WriteFragment extends Fragment {
         mDatabase.child(String.valueOf(maxID+1)).setValue(timeline);
     }
 
-    private void sendPostToFCM(String message) {
+    private void sendPostToFCM(String message, String token) {
         //참고 링크 : https://anhana.tistory.com/7?category=701004
         // 통신은 무조건 워커 쓰레드로 구현해줘야함!
         new Thread(new Runnable() {
@@ -241,7 +241,7 @@ public class WriteFragment extends Fragment {
                     notification.put("body", message);
                     notification.put("title", getString(R.string.app_name));
                     root.put("notification", notification);
-                    root.put("to", Token);
+                    root.put("to", token);
                     // FMC 메시지 생성 end
                     URL Url = new URL(FCM_MESSAGE_URL);
                     HttpURLConnection conn = (HttpURLConnection) Url.openConnection();

@@ -109,7 +109,6 @@ public class NewsFragment extends Fragment {
                 intent.putExtra("Title", newsDataList.get(itemPosition).getContent());
                 intent.putExtra("NewsLink", newsDataList.get(itemPosition).getLink());
                 startActivity(intent);
-//                Toast.makeText(getActivity(), newsDataList.get(itemPosition).getLink(),Toast.LENGTH_SHORT).show();
             }
         }) ;
         return view;

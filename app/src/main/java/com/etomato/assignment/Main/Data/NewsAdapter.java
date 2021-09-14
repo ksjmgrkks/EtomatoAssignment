@@ -14,6 +14,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.etomato.assignment.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
 
@@ -77,13 +82,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     .centerCrop()
                     .into(((BasicViewHolder) viewHolder).image);
         }
-        else if(viewHolder instanceof AdViewHolder)
+        else if(viewHolder instanceof GridViewHolder)
         {
-            ((AdViewHolder) viewHolder).content.setText(dataList.get(position).getContent());
-        }
-        else
-        {
-
             ((GridViewHolder) viewHolder).content.setText(dataList.get(position).getContent());
             Glide.with(activity)
                     .load(dataList.get(position).getImage())
@@ -92,6 +92,16 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     .override(500,400)
                     .centerCrop()
                     .into(((GridViewHolder) viewHolder).image);
+        }
+        else{
+            MobileAds.initialize(activity, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+                }
+            });
+
+            AdRequest adRequest = new AdRequest.Builder().build();
+            ((AdViewHolder) viewHolder).adView.loadAd(adRequest);
         }
     }
 
@@ -145,13 +155,13 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     public class AdViewHolder extends RecyclerView.ViewHolder{
-        TextView content;
+        AdView adView;
 
         AdViewHolder(View itemView)
         {
             super(itemView);
 
-            content = itemView.findViewById(R.id.textView_ad);
+            adView = itemView.findViewById(R.id.adView);
         }
     }
 
