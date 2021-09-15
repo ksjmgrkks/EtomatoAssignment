@@ -54,27 +54,26 @@ public class ViewPagerActivity extends AppCompatActivity {
         adapter.addFragment(new WriteFragment(), "글쓰기");
         adapter.addFragment(new TimelineFragment(), "타임라인");
         adapter.addFragment(newsFragment, "뉴스");
-//        adapter.deleteFragment(newsFragment, "뉴스");
         viewPager.setAdapter(adapter);
     }
 
     //현재 Focus를 받고 있는 View의 영역이 아닌 다른 곳에 터치 이벤트가 일어나면 InputMethodManager을 통해 키보드를 내리는 코드입니다.
     //참고 : https://ohdbjj.tistory.com/7
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        View focusView = getCurrentFocus();
-//        if (focusView != null) {
-//            Rect rect = new Rect();
-//            focusView.getGlobalVisibleRect(rect);
-//            int x = (int) ev.getX(), y = (int) ev.getY();
-//            if (!rect.contains(x, y)) {
-//                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//                if (imm != null)
-//                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
-//                focusView.clearFocus();
-//            }
-//        }
-//        return super.dispatchTouchEvent(ev);
-//    }
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View focusView = getCurrentFocus();
+        if (focusView != null) {
+            Rect rect = new Rect();
+            focusView.getGlobalVisibleRect(rect);
+            int x = (int) ev.getX(), y = (int) ev.getY();
+            if (!rect.contains(x, y)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+                focusView.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
 }

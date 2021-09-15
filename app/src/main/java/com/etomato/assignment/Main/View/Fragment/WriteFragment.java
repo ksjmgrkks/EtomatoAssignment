@@ -79,8 +79,10 @@ public class WriteFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_write, container, false);
 
+
         //키보드에 따라 UI가 바뀌도록 설정하는 코드
-       getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //참고 : https://medium.com/@madalinnita/android-how-to-move-views-above-keyboard-when-its-opened-quick-secure-solution-90188c4d7b15
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams. SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams. SOFT_INPUT_ADJUST_RESIZE );
 
         //db 인스턴스화
         mDatabase = FirebaseDatabase.getInstance().getReference().child("timeline");

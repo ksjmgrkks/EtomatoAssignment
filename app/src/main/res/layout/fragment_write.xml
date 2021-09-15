@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:context=".Main.View.Fragment.WriteFragment">
 
         <!-- TODO: Update blank fragment layout -->
@@ -19,44 +21,43 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/button_write"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="글쓰기"
-                app:layout_constraintEnd_toEndOf="@+id/editText_title"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <EditText
                 android:id="@+id/editText_title"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/rec"
                 android:fontFamily=""
                 android:hint="제목을 입력해주세요"
                 android:inputType="text"
+                app:layout_constraintBottom_toTopOf="@+id/editText_contents"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_write" />
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/button_write"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="글쓰기"
+                app:layout_constraintBottom_toTopOf="@+id/editText_title"
+                app:layout_constraintEnd_toEndOf="@+id/editText_title" />
 
             <EditText
                 android:id="@+id/editText_contents"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/rec"
                 android:hint="본문을 입력해주세요"
                 android:imeOptions="actionDone"
                 android:inputType="textMultiLine"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_title" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -65,12 +66,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_menu"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginBottom="45dp"
-        android:background="#03A9F4"
+        android:layout_height="120dp"
+        android:background="#3F51B5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <Button
             android:id="@+id/button_move_previous"
