@@ -99,6 +99,8 @@ public class WriteFragment extends Fragment {
 
         bottomMenu.setVisibility(View.INVISIBLE);
 
+
+
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +110,8 @@ public class WriteFragment extends Fragment {
                 bottomMenu.setVisibility(View.INVISIBLE);
             }
         });
+
+
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,6 +140,7 @@ public class WriteFragment extends Fragment {
                     buttonNext.setVisibility(View.VISIBLE);
                     bottomMenu.setVisibility(View.VISIBLE);
                     buttonConfirm.setVisibility(View.GONE);
+//                    bottomMenu.setFocusable(true);
                 }
                 //포커스를 잃었을 때
                 else {
@@ -152,6 +157,7 @@ public class WriteFragment extends Fragment {
                     buttonPrevious.setVisibility(View.VISIBLE);
                     buttonNext.setVisibility(View.GONE);
                     buttonConfirm.setVisibility(View.VISIBLE);
+//                    bottomMenu.setFocusable(true);
                 }
                 //포커스를 잃었을 때
                 else {
@@ -263,5 +269,7 @@ public class WriteFragment extends Fragment {
             }
         }).start();
     }
+
+
 
     }

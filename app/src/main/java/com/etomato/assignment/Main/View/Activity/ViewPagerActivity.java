@@ -76,4 +76,5 @@ public class ViewPagerActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+
 }
